@@ -1,0 +1,38 @@
+Customer Support Ticket Export - Batch #2291
+Generated 2026-09-03 14:32:07
+
+---
+Ticket #10432
+From: jane.doe123@gmail.com
+Submitted: 09/04/2026 at 2:15 PM
+Message: <p>Hi, I was charged twice on my card ending in visa 4539 1488
+0343 6467. Please refund the second charge ASAP!!!</p>
+Contact number: +1 (555) 234-9876
+Alt contact: 555.867.5309
+#billing #urgent
+
+---
+Ticket #10433
+From: k.mutesi@alueducation.com
+Submitted: 2026-09-04T18:45:00
+Message: <div>My alumni verification email
+(mutesi.k@alumni.alucation.com) isn't being recognised by the portal.
+</div>
+Reference site: https://portal.alueducation.com/verify?user=mutesi#alu #login-issue
+
+---
+Ticket #10434
+From: not-an-email-address
+Submitted: 09/04/2026, 23:58
+Message: <script>alert('test')</script> Ignore this, just checking to see that your system can handles it.
+Card mentioned: 1234-5678-9012-3456 (it's fake, we are using it for testing)
+#security-test
+
+---
+Ticket #10435
+From: si.support@si.alueducation.coom
+Submitted: 5:00 AM
+Message: Invoice attached, total due $1,249.99. Old invoice was $99.50.
+Website: http://old-portal.example.com/invoices (deprecated, use
+www.example.com/new-invoices instead)
+Phone: 0788123456
