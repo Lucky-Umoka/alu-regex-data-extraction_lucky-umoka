@@ -18,7 +18,9 @@ Submitted: 2026-09-04T18:45:00
 Message: <div>My alumni verification email
 (mutesi.k@alumni.alucation.com) isn't being recognised by the portal.
 </div>
-Reference site: https://portal.alueducation.com/verify?user=mutesi#alu #login-issue
+Reference site: https://portal.alueducation.com/verify?user=mutesi
+Contact number: 0788123456
+#alu #login-issue
 
 ---
 Ticket #10434
@@ -30,9 +32,19 @@ Card mentioned: 1234-5678-9012-3456 (it's fake, we are using it for testing)
 
 ---
 Ticket #10435
-From: si.support@si.alueducation.coom
+From: si.support@si.alueducation.com
 Submitted: 5:00 AM
 Message: Invoice attached, total due $1,249.99. Old invoice was $99.50.
 Website: http://old-portal.example.com/invoices (deprecated, use
 www.example.com/new-invoices instead)
 Phone: 0788123456
+
+---
+Ticket #10436
+From: adaeze.n@yahoo.com
+Submitted: 09/05/2026 at 09:20
+Message: <p>Please call me back, my line keeps dropping. Tried both numbers below.</p>
+Primary: +234 803 123 4567
+Secondary: +234-803-123-4567
+Alt (no intl code): 08031234567
+#callback-requested
