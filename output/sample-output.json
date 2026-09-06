@@ -1,0 +1,60 @@
+{
+  "emails": [
+    {
+      "email": "jane.doe123@gmail.com",
+      "type": "alu-email"
+    },
+    {
+      "email": "k.mutesi@alueducation.com",
+      "type": "alu-official"
+    },
+    {
+      "email": "mutesi.k@alumni.alucation.com",
+      "type": "alu-email"
+    },
+    {
+      "email": "si.support@si.alueducation.com",
+      "type": "alu-si"
+    },
+    {
+      "email": "adaeze.n@yahoo.com",
+      "type": "alu-email"
+    }
+  ],
+  "phones": [
+    "2026-09-03 14",
+    "+1 (555) 234-9876",
+    "555.867.5309",
+    "0788123456",
+    "0788123456",
+    "+234 803 123 4567",
+    "+234-803-123-4567",
+    "08031234567"
+  ],
+  "times": [
+    {
+      "time": "14:32:07",
+      "format": "24-hour"
+    },
+    {
+      "time": "2:15 PM",
+      "format": "12-hour"
+    },
+    {
+      "time": "23:58",
+      "format": "24-hour"
+    },
+    {
+      "time": "5:00 AM",
+      "format": "12-hour"
+    },
+    {
+      "time": "09:20",
+      "format": "24-hour"
+    }
+  ],
+  "credit_cards": [
+    "**** **** **** 6467",
+    "**** **** **** 3456"
+  ]
+}

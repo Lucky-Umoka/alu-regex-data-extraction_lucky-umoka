@@ -24,7 +24,7 @@ CREDIT_CARD_REGEX = re.compile(
 
 
 PHONE_REGEX = re.compile( 
-    r'(?<!\w)\+?\d{0,3}[-.\s]?(?:\(\d{2,4}\)[-.\s]?)?(?:\d{2,4}[-.\s]?){1,4}\d{2,4}(?!\w))'     
+    r'(?<!\w)\+?\d{0,3}[-.\s]?(?:\(\d{2,4}\)[-.\s]?)?(?:\d{2,4}[-.\s]?){1,4}\d{2,4}(?!\w)'     
 )
 
 
@@ -34,9 +34,9 @@ TIME_REGEX = re.compile(
 
 def clean_text(raw_text):
     if not isinstance(raw_text, str):
-        raise TextError("Input must be a string.")
+        raise TypeError("Input must be a string.")
     if len(raw_text) > 1_000_000:
-        raise TextError("Input is too large - not processing. Maximum allowed length is 1,000,000 characters.")
+        raise ValueError("Input is too large - not processing. Maximum allowed length is 1,000,000 characters.")
     cleaned = raw_text.replace('\x00', '')
     return cleaned
 
@@ -56,7 +56,7 @@ def hide_spans(text, spans):
 
 
 def extract_phones(text):
-    masked_text = mask_spans(text, extract_credit_cards(text))
+    masked_text = hide_spans(text, extract_credit_cards(text))
     results = []
     for m in PHONE_REGEX.finditer(masked_text):
         digit_count = len(re.sub(r'\D', '', m.group()))
@@ -85,20 +85,21 @@ def extract_times(text):
 
 
 def main():
-    with open('input/raw-text.text', 'r', encoding='utf-8') as f:
+    with open('input/raw-text.txt', 'r', encoding='utf-8') as f:
         raw_text = f.read()
 
     text = clean_text(raw_text)
 
     emails = extract_emails(text)
     phones = extract_phones(text)
+    times = extract_times(text)
     credit_cards = extract_credit_cards(text)
 
     # Hiding the card numbers in a mask before they ever reach the output or logs - show only last 4 digits of the card details
     cards = []
-    for c in cards_raw:
+    for c in credit_cards:
         digits_only = re.sub(r'\D', '', c['match'])
-        masked = '**** **** **** ' + digits_only[-4]
+        masked = '**** **** **** ' + digits_only[-4:]
         cards.append(masked)
 
     results = {
@@ -111,9 +112,9 @@ def main():
 
     print('Extraction Summary:')
     print('   Emails found:', len(emails))
-    print('.  Phones found:', len(phones))
+    print('  Phones found:', len(phones))
     print('   Times found:', len(times))
-    print('.  Credit cards found (masked):', len(cards))
+    print('  Credit cards found (masked):', len(cards))
 
     with open('output/sample-output.json', 'w', encoding='utf-8') as f:
         json.dump(results, f, indent=2)
