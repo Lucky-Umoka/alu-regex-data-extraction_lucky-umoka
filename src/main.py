@@ -1,4 +1,5 @@
 import re
+import json
 
 EMAIL_REGEX = re.compile(
     r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
@@ -86,6 +87,38 @@ def extract_times(text):
 def main():
     with open('input/raw-text.text', 'r', encoding='utf-8') as f:
         raw_text = f.read()
-        
-    
-        
+
+    text = clean_text(raw_text)
+
+    emails = extract_emails(text)
+    phones = extract_phones(text)
+    credit_cards = extract_credit_cards(text)
+
+    # Hiding the card numbers in a mask before they ever reach the output or logs - show only last 4 digits of the card details
+    cards = []
+    for c in cards_raw:
+        digits_only = re.sub(r'\D', '', c['match'])
+        masked = '**** **** **** ' + digits_only[-4]
+        cards.append(masked)
+
+    results = {
+        'emails': emails,
+        'phones': phones,
+        'times': times,
+        'credit_cards': cards,
+    }
+
+
+    print('Extraction Summary:')
+    print('   Emails found:', len(emails))
+    print('.  Phones found:', len(phones))
+    print('   Times found:', len(times))
+    print('.  Credit cards found (masked):', len(cards))
+
+    with open('output/sample-output.json', 'w', encoding='utf-8') as f:
+        json.dump(results, f, indent=2)
+
+
+
+if __name__ == '__main__':
+    main()
