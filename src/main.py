@@ -31,4 +31,61 @@ TIME_REGEX = re.compile(
     r'\b(?:[01]?\d|2[0-3]):[0-5]\d(?::[0-5]\d)?\s?([APap][Mm])?\b'   
 )
 
+def clean_text(raw_text):
+    if not isinstance(raw_text, str):
+        raise TextError("Input must be a string.")
+    if len(raw_text) > 1_000_000:
+        raise TextError("Input is too large - not processing. Maximum allowed length is 1,000,000 characters.")
+    cleaned = raw_text.replace('\x00', '')
+    return cleaned
 
+def extract_credit_cards(text):
+    matches = []
+    for m in CREDIT_CARD_REGEX.finditer(text):
+        matches.append({'match': m.group(), 'start': m.start(), 'end': m.end()})
+    return matches
+
+
+def hide_spans(text, spans):
+    masked = list(text)
+    for span in spans:
+        for i in range(span['start'], span['end']):
+            masked[i] = '*'
+    return ''.join(masked)
+
+
+def extract_phones(text):
+    masked_text = mask_spans(text, extract_credit_cards(text))
+    results = []
+    for m in PHONE_REGEX.finditer(masked_text):
+        digit_count = len(re.sub(r'\D', '', m.group()))
+        if digit_count >= 7:
+            results.append(m.group().strip())
+    return results
+
+
+
+def extract_emails(text):
+    results = []
+    for m in EMAIL_REGEX.finditer(text):
+        results.append({'email': m.group(), 'type': group_email(m.group())})
+    return results
+
+
+
+def extract_times(text):
+    results = []
+    for m in TIME_REGEX.finditer(text):
+        is_12_hour = m.group(1) is not None
+        results.append({'time': m.group().strip(), 'format': '12-hour' if is_12_hour else '24-hour'})
+    return results
+
+
+
+
+def main():
+    with open('input/raw-text.text', 'r', encoding='utf-8') as f:
+        raw_text = f.read()
+        
+    
+        
