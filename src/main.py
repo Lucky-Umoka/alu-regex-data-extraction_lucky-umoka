@@ -23,6 +23,11 @@ CREDIT_CARD_REGEX = re.compile(
 )
 
 
+DATE_PATTERN = re.compile(
+    r'\b\d{4}-\d{2}(?:[T\s]\d{2}:\d{2}:\d{2})?\b|\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b'
+)
+
+
 PHONE_REGEX = re.compile( 
     r'(?<!\w)\+?\d{0,3}[-.\s]?(?:\(\d{2,4}\)[-.\s]?)?(?:\d{2,4}[-.\s]?){1,4}\d{2,4}(?!\w)'     
 )
@@ -32,17 +37,28 @@ TIME_REGEX = re.compile(
     r'\b(?:[01]?\d|2[0-3]):[0-5]\d(?::[0-5]\d)?\s?([APap][Mm])?\b'   
 )
 
+
+# Security measure: Clean the text, reject non-string or oversized input before any processing (resource exhaustion guard)
 def clean_text(raw_text):
     if not isinstance(raw_text, str):
         raise TypeError("Input must be a string.")
     if len(raw_text) > 1_000_000:
         raise ValueError("Input is too large - not processing. Maximum allowed length is 1,000,000 characters.")
+    # Extra security measure to strip null bytes which can be used to confuse downstream processing or logging systems
     cleaned = raw_text.replace('\x00', '')
     return cleaned
+
 
 def extract_credit_cards(text):
     matches = []
     for m in CREDIT_CARD_REGEX.finditer(text):
+        matches.append({'match': m.group(), 'start': m.start(), 'end': m.end()})
+    return matches
+
+
+def extract_dates(text):
+    matches = []
+    for m in DATE_PATTERN.finditer(text):
         matches.append({'match': m.group(), 'start': m.start(), 'end': m.end()})
     return matches
 
@@ -55,8 +71,11 @@ def hide_spans(text, spans):
     return ''.join(masked)
 
 
+# Security measure: Hide the credit card numbers and dates BEFORE phone extraction runs, since both
+# share the same digit-group shape as phone numbers. This prevents accidental selection of sensitive data as phone numbers and would otherwise be misclassified
 def extract_phones(text):
-    masked_text = hide_spans(text, extract_credit_cards(text))
+    spans_to_hide = extract_credit_cards(text) + extract_dates(text)
+    masked_text = hide_spans(text, spans_to_hide)
     results = []
     for m in PHONE_REGEX.finditer(masked_text):
         digit_count = len(re.sub(r'\D', '', m.group()))
@@ -93,9 +112,11 @@ def main():
     emails = extract_emails(text)
     phones = extract_phones(text)
     times = extract_times(text)
+    dates = extract_dates(text)
     credit_cards = extract_credit_cards(text)
 
     # Hiding the card numbers in a mask before they ever reach the output or logs - show only last 4 digits of the card details
+    # This is a security measure to prevent unnecessary exposure of sensitive data in logs or output files
     cards = []
     for c in credit_cards:
         digits_only = re.sub(r'\D', '', c['match'])

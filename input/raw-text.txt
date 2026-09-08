@@ -16,7 +16,7 @@ Ticket #10433
 From: k.mutesi@alueducation.com
 Submitted: 2026-09-04T18:45:00
 Message: <div>My alumni verification email
-(mutesi.k@alumni.alucation.com) isn't being recognised by the portal.
+(mutesi.k@alumni.alueducation.com) isn't being recognised by the portal.
 </div>
 Reference site: https://portal.alueducation.com/verify?user=mutesi
 Contact number: 0788123456
