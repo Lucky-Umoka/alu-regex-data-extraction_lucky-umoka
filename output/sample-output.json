@@ -2,7 +2,7 @@
   "emails": [
     {
       "email": "jane.doe123@gmail.com",
-      "type": "alu-email"
+      "type": "normal-mail"
     },
     {
       "email": "k.mutesi@alueducation.com",
@@ -18,7 +18,7 @@
     },
     {
       "email": "adaeze.n@yahoo.com",
-      "type": "alu-email"
+      "type": "normal-mail"
     }
   ],
   "phones": [

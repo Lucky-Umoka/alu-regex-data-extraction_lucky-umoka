@@ -15,7 +15,7 @@ def group_email(email):
     elif domain.endswith('alueducation.com'):
         return 'alu-official'
     else:
-        return 'alu-email'
+        return 'normal-mail'
 
 
 CREDIT_CARD_REGEX = re.compile(
@@ -105,15 +105,15 @@ def extract_times(text):
 
 def main():
     with open('input/raw-text.txt', 'r', encoding='utf-8') as f:
-        raw_text = f.read()
+        raw_text = f.read()   # Reads the raw text from the input file
 
-    text = clean_text(raw_text)
+    text = clean_text(raw_text)  # Clean the text input (type/size checks and null byte removal)
 
-    emails = extract_emails(text)
-    phones = extract_phones(text)
-    times = extract_times(text)
-    dates = extract_dates(text)
-    credit_cards = extract_credit_cards(text)
+    emails = extract_emails(text)  # Extracts + classifies emails
+    phones = extract_phones(text)  # Extracts phone numbers (the cards/dates are masked first)
+    times = extract_times(text)    # Extracts time strings, classifies as 12-hour/24-hour
+    dates = extract_dates(text)    # Internal use only, not outputted, but used to mask phone numbers
+    credit_cards = extract_credit_cards(text)   # Extracts credit card numbers
 
     # Hiding the card numbers in a mask before they ever reach the output or logs - show only last 4 digits of the card details
     # This is a security measure to prevent unnecessary exposure of sensitive data in logs or output files
